@@ -1,0 +1,53 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Объявления
+{% endblock %}
+
+{% block menu%}
+<li><a href="/home" title="Общая информация о сервисе Experts"><h5>Стартовая страница</h5></a></li>
+<li class="is-active"><a href="/announcements"><h5>Объявления</h5></a></li>
+{% endblock %}
+
+{% block content %}
+<br>
+<div class="grid-x align-center">
+  <div class="cell shrink">
+    <a href="/announcements/new" class="large button" title="Открыть форму создания нового резюме">Добавить резюме</a>
+  </div>
+</div>
+
+<div class="grid-x align-center">
+  <div class="cell shrink">
+    <table class="hover">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Дата добавления</th>
+          <th>Категория услуги</th>
+          <th>Название</th>
+          <th>ФИО</th>
+          <th>Телефон</th>
+          <th>Подробно</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for indexedAnnouncement in model.announcements %}
+          <tr>
+            <td>{{indexedAnnouncement.index + 1}}</td>
+            <td>{{indexedAnnouncement.value.additionTime}}</td>
+            <td>{{indexedAnnouncement.value.serviceCategory}}</td>
+            <td>{{indexedAnnouncement.value.title}}</td>
+            <td>{{indexedAnnouncement.value.specialist}}</td>
+            <td>{{indexedAnnouncement.value.phoneNumber}}</td>
+            <td>
+                <a href="/announcements/{{indexedAnnouncement.index}}" class="button"
+                title="Полная информация об объявлении {{indexedAnnouncement.index + 1}}">Больше информации</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

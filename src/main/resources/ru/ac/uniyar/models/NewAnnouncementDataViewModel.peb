@@ -1,0 +1,45 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Добавление резюме
+{% endblock %}
+
+{% block menu%}
+<li><a href="/home" title="Общая информация о сервисе Experts"><h5>Стартовая страница</h5></a></li>
+<li><a href="/announcements" title="Переход к просмотру объявлений"><h5>Объявления</h5></a></li>
+{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Заполните форму, чтобы добавить новое резюме</h2>
+<div class="grid-x align-center">
+    <div class="cell small-3">
+      <form method="POST">
+        <div>
+          <label for="category"><strong>Категория услуги</strong></label>
+          <input type="text" name="category">
+        </div>
+        <div>
+          <label for="title"><strong>Название</strong></label>
+          <input type="text" name="title">
+        </div>
+        <div>
+          <label for="description"><strong>Описание</strong></label>
+          <textarea name="description" rows="5"></textarea>
+        </div>
+        <div>
+          <label for="specialist"><strong>ФИО специалиста</strong></label>
+          <input type="text" name="specialist">
+        </div>
+        <div>
+          <label for="education"><strong>Образование, сертификация</strong></label>
+          <textarea name="education" rows="5"></textarea>
+        </div>
+        <div>
+          <label for="phone"><strong>Номер телефона</strong></label>
+          <input type="tel" name="phone">
+        </div>
+        <input type="submit" value="Отправить">
+      </form>
+    </div>
+</div>
+{% endblock %}

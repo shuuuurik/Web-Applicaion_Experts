@@ -1,0 +1,36 @@
+<!doctype html>
+<html class="no-js" lang="ru" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="icon" href="/images/experts.ico"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Нет заголовка{% endblock %}</title>
+    <link rel="stylesheet" href="/css/foundation.css">
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body>
+    <div class="grid-container fluid">
+      <div class="top-bar">
+        <div class="top-bar-left">
+          <ul class="menu align-middle">
+            <li><img src="/images/logo.png" alt="Логотип сайта"></li>
+            {% block menu %}
+              Нет заголовков меню
+            {% endblock %}
+          </ul>
+        </div>
+      </div>
+
+{% block content %}
+    Нет содержимого
+{% endblock %}
+
+    </div>
+
+    <script src="/js/vendor/jquery.js"></script>
+    <script src="/js/vendor/what-input.js"></script>
+    <script src="/js/vendor/foundation.js"></script>
+    <script src="/js/app.js"></script>
+  </body>
+</html>
