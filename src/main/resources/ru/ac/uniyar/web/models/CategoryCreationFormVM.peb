@@ -1,0 +1,27 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Добавление категории
+{% endblock %}
+
+{% block menu%}
+{{ menu(0) }}
+{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Заполните форму, чтобы добавить новую категорию услуг</h2>
+{{ showErrorFormInfo(model.form) }}
+
+<div class="grid-x align-center">
+    <div class="cell small-3">
+        <form method="POST">
+                <label for="category"><strong>Название категории</strong>
+                    <input type="text" maxlength="30" name="name"
+                           value = "{{ model.form.fields["name"] | first}}"
+                    >
+                </label>
+            <input class="button success cell" type="submit" value="Отправить">
+        </form>
+    </div>
+</div>
+{% endblock %}

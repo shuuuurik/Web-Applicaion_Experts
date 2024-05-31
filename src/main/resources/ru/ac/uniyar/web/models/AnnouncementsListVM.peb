@@ -1,0 +1,109 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Объявления
+{% endblock %}
+
+{% block menu %}
+{{ menu(2) }}
+{% endblock %}
+
+{% block content %}
+{{ listHeader("объявлений") }}
+<div class="grid-container">
+    <form class="grid-x grid-margin-x align-center align-bottom" method="GET">
+        <label class="cell medium-4"><strong>Поиск по категории</strong>
+            <select name="category">
+                <option value=""></option>
+                {{ comboBox(model.categories, model.category) }}
+            </select>
+        </label>
+        <label class="cell medium-4"><strong>Поиск по названию</strong>
+            <input type="text" name="title"
+                   value = "{{ model.title}}"
+            >
+        </label>
+        <label class="cell medium-4"><strong>Поиск по городу</strong>
+            <select name="city">
+                <option value=""></option>
+                {{ comboBox(model.cities, model.city) }}
+            </select>
+        </label>
+        <input class="button success cell medium-3" type="submit" value="Искать">
+        <a href="/announcements" class="alert button cell medium-3"
+           title="Показать полный список объявлений">Сбросить фильтры</a>
+    </form>
+</div>
+<br>
+{{ pageFlipper(model.uri) }}
+<div class="grid-x align-center">
+    <!--<div class="cell shrink">
+        <div class="callout">
+            <form method="GET">
+                <label><strong>Поиск по категории</strong>
+                    <select name="category">
+                        <option value=""></option>
+                        {{ comboBox(model.categories, model.category) }}
+                    </select>
+                </label>
+                <label><strong>Поиск по названию</strong>
+                    <input type="text" name="title"
+                           value = "{{ model.title}}"
+                    >
+                </label>
+                <label><strong>Поиск по городу</strong>
+                    <select name="city">
+                        <option value=""></option>
+                        {{ comboBox(model.cities, model.city) }}
+                    </select>
+                </label>
+                <input class="button success cell" type="submit" value="Искать">
+            </form>
+            <a href="/announcements" class="alert button cell"
+               title="Показать полный список объявлений">Сбросить фильтры</a>
+        </div>
+    </div>-->
+    <div class="cell shrink">
+        {% if model.announcements is empty %}
+            <div class="callout warning">
+                <h4>Данные на этой странице отсутствуют</h4>
+            </div>
+        {% else %}
+            <table class="hover">
+                <thead>
+                    <tr>
+                        <th>Категория услуг</th>
+                        <th>Название</th>
+                        <th>Город</th>
+                        <th>Специалист</th>
+                        <th>Подробно</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for announcement in model.announcements %}
+                    <tr>
+                        <td>{{announcement.category}}</td>
+                        <td>{{announcement.title}}</td>
+                        <td>{{announcement.city}}</td>
+                        <td>
+                            <a href="/specialists/{{announcement.specialistId}}" class="button"
+                               title="Перейти на страницу специалиста">Страница специалиста</a>
+                        </td>
+                        <td>
+                            <a href="/announcements/{{announcement.id}}" class="button"
+                               title="Полная информация об объявлении">Больше информации</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
+<br>
+<div class="grid-x align-center">
+    <div class="cell shrink">
+        <a href="/announcements/new" class="large button success" title="Открыть форму создания нового объявления">Добавить объявление</a>
+    </div>
+</div>
+{% endblock %}

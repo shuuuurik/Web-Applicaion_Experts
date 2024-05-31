@@ -1,0 +1,135 @@
+{% macro menu(number) %}
+<li
+    {% if number == 1  %}
+            class="is-active"
+    {% endif %}
+>
+    <a href="/home" title="Общая информация о сервисе Experts">
+        <h5>Стартовая страница</h5>
+    </a>
+</li>
+<li
+    {% if number == 2  %}
+            class="is-active"
+    {% endif %}
+>
+    <a href="/announcements" title="Посмотреть список объявлений">
+        <h5>Объявления</h5>
+    </a>
+</li>
+<li
+    {% if number == 3  %}
+            class="is-active"
+    {% endif %}
+>
+    <a href="/cities" title="Посмотреть список городов">
+        <h5>Города</h5>
+    </a>
+</li>
+<li
+    {% if number == 4  %}
+            class="is-active"
+    {% endif %}
+>
+    <a href="/categories" title="Посмотреть список категорий услуг">
+        <h5>Категории услуг</h5>
+    </a>
+</li>
+<li
+    {% if number == 5  %}
+            class="is-active"
+    {% endif %}
+>
+    <a href="/specialists" title="Посмотреть список специалистов">
+        <h5>Специалисты</h5>
+    </a>
+</li>
+{% endmacro %}
+
+{% macro showErrorFormInfo(form) %}
+    {% if form.errors is not empty %}
+    <div class="grid-x align-center">
+        <div class="cell medium-3 callout alert" data-closable>
+            <p>Введены некорректные данные!</p>
+            <ul>
+                {% for error in form.errors %}
+                <li>
+                    {% if error.meta.description is not null %}
+                        {{ error.meta.description }}
+                    {% else %}
+                        {{ error }}
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+            <p>Попробуйте еще раз</p>
+            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro pageFlipper(uri) %}
+<div class="grid-x">
+    <div class="grid-x grid-margin-x cell align-center">
+        {% if uri.page > 1 %}
+            <a class="button small cell shrink" href="{{ uri.previousPage }}"> < </a>
+        {% endif %}
+        <h4 class="cell shrink">Страница {{ uri.page }}</h4>
+        <a class="button small cell shrink" href="{{ uri.nextPage }}"> > </a>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro comboBox(list, selected) %}
+    {% for entity in list %}
+    <option value="{{entity.name}}"
+        {% if entity.name == selected %}
+            selected
+        {% endif %}>
+            {{entity.name}}
+    </option>
+    {% endfor %}
+{% endmacro %}
+
+{% macro listHeader(entities) %}
+<br>
+<div class="grid-x align-center">
+    <div class="cell shrink">
+        <h2>Список {{ entities }}</h2>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro entityHeader(title, path, buttonTitle, buttonContent) %}
+<br>
+<div class="grid-x grid-padding-x align-center">
+    <div class="cell shrink">
+        <h2>Информация {{ title }}</h2>
+    </div>
+    <div class="cell shrink">
+        <a href="{{ path }}" class="large button" title="Переход к просмотру {{ buttonTitle }}">Вернуться к {{ buttonContent }}</a>
+    </div>
+</div>
+{% endmacro %}
+
+
+{% macro entityFieldInfo(title, content) %}
+<label class="text-justify"><strong>{{ title }}</strong></label>
+<p class="text-justify">{{ content }}</p>
+{% endmacro %}
+
+{% macro entityFieldInfoWithButton(title, content, pathPref, path, buttonContent) %}
+<div class="grid-x align-justify align-middle">
+    <div class="cell shrink">
+        <label class="text-justify"><strong>{{ title }}</strong></label>
+        <p class="text-justify">{{ content }}</p>
+    </div>
+    <a href="{{ pathPref }}{{ path }}" class="button cell medium-3"
+       title="Перейти на страницу {{buttonContent}}">
+        Страница {{buttonContent}}
+    </a>
+</div>
+{% endmacro %}

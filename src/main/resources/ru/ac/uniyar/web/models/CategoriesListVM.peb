@@ -1,0 +1,64 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Категории услуг
+{% endblock %}
+
+{% block menu %}
+{{ menu(4) }}
+{% endblock %}
+
+{% block content %}
+{{ listHeader("категорий услуг") }}
+<div class="grid-container">
+    <form class="grid-x grid-margin-x align-center align-bottom" method="GET">
+        <label class="cell medium-4"><strong>Поиск по названию</strong>
+            <input type="text" name="name"
+                   value = "{{ model.name}}"
+            >
+        </label>
+        <input class="button success cell medium-3" type="submit" value="Искать">
+        <a href="/categories" class="alert button cell medium-3"
+           title="Показать полный список категорий">Сбросить фильтры</a>
+    </form>
+</div>
+<br>
+{{ pageFlipper(model.uri) }}
+<div class="grid-x align-center">
+    <div class="cell shrink">
+        {% if model.categories is empty %}
+        <div class="callout warning">
+            <h4>Данные на этой странице отсутствуют</h4>
+        </div>
+        {% else %}
+            <table class="hover">
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Количество объявлений</th>
+                        <th>Подробно</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for category in model.categories %}
+                    <tr>
+                        <td>{{ category.name }}</td>
+                        <td class="text-center">{{ category.announcementsNumber }}</td>
+                        <td>
+                            <a href="/categories/{{ category.name }}" class="button"
+                               title="Полная информация о категории услуг {{ category.name }}">Больше информации</a>
+                        </td>
+                    </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
+<br>
+<div class="grid-x align-center">
+    <div class="cell shrink">
+        <a href="/categories/new" class="large button success" title="Открыть форму по добавлению категории">Добавить категорию</a>
+    </div>
+</div>
+{% endblock %}

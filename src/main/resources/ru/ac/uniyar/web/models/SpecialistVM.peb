@@ -1,0 +1,74 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Информация
+{% endblock %}
+
+{% block menu%}
+{{ menu(0) }}
+{% endblock %}
+
+{% set data = model.specialist %}
+{% block content %}
+{{ entityHeader("о специалисте", "/specialists", "специалистов", "специалистам") }}
+<div class="grid-x align-center">
+    <div class="cell medium-6 primary callout">
+        <div class="grid-x align-justify align-middle">
+            <div class="cell shrink">
+                {{ entityFieldInfo("ФИО специалиста", data.fullName) }}
+            </div>
+            <a href="/specialists/{{ data.id }}/new" class="button success cell shrink"
+               title="Открыть форму добавления нового объявления"> Создать объявление для данного специалиста
+            </a>
+        </div>
+        {{ entityFieldInfo("Образование, сертификация", data.education) }}
+        {{ entityFieldInfo("Номер телефона", data.phone) }}
+        {{ entityFieldInfo("Дата добавления", data.addingTime) }}
+    </div>
+</div>
+<br>
+{% if model.announcements is empty and model.uri.page == 1 %}
+    <div class="grid-x align-center">
+        <div class="cell shrink callout warning">
+            <h4>Объявлений у специалиста {{ data.fullName }} нет</h4>
+        </div>
+    </div>
+{% else %}
+    <h3 class="text-center">Список объявлений у специалиста {{ data.fullName }}</h3>
+    <br>
+    {{ pageFlipper(model.uri) }}
+    <div class="grid-x align-center">
+        <div class="cell shrink">
+        {% if model.announcements is empty %}
+            <div class="callout warning">
+                <h4>Данные на этой странице отсутствуют</h4>
+            </div>
+        {% else %}
+            <table class="hover">
+                <thead>
+                <tr>
+                    <th>Категория услуг</th>
+                    <th>Название</th>
+                    <th>Город</th>
+                    <th>Подробно</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for announcement in model.announcements %}
+                    <tr>
+                        <td>{{ announcement.category }}</td>
+                        <td>{{ announcement.title }}</td>
+                        <td>{{ announcement.city }}</td>
+                        <td>
+                            <a href="/announcements/{{announcement.id}}" class="button"
+                               title="Полная информация об объявлении">Больше информации</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

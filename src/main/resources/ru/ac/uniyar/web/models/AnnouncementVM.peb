@@ -1,0 +1,27 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Информация
+{% endblock %}
+
+{% block menu%}
+{{ menu(0) }}
+{% endblock %}
+
+{% set data = model.announcement %}
+{% block content %}
+{{ entityHeader("об объявлении", "/announcements", "объявлений", "объявлениям") }}
+<div class="grid-x grid-margin-x align-center">
+    <div class="cell medium-6 primary callout">
+        {{ entityFieldInfo("Дата добавления", data.addingTime) }}
+        {{ entityFieldInfoWithButton("Категория услуг", data.category, "/categories/", data.category, "категории") }}
+        {{ entityFieldInfo("Название", data.title) }}
+        {{ entityFieldInfoWithButton("Город", data.city, "/cities/", data.city, "города") }}
+        {{ entityFieldInfo("Описание", data.description) }}
+        {{ entityFieldInfoWithButton("ФИО специалиста", model.specialistName, "/specialists/", data.specialistId, "специалиста") }}
+    </div>
+</div >
+{% endblock %}
+
+
+
