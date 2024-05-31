@@ -1,0 +1,62 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Города
+{% endblock %}
+
+{% block menu %}
+{{ menu(3) }}
+{% endblock %}
+
+{% block content %}
+{{ listHeader("городов") }}
+<div class="grid-container">
+    <form class="grid-x grid-margin-x align-center align-bottom" method="GET">
+        <label class="cell medium-4"><strong>Поиск по названию</strong>
+            <input type="text" name="name"
+                   value = "{{ model.name}}"
+            >
+        </label>
+        <input class="button success cell medium-3" type="submit" value="Искать">
+        <a href="/cities" class="alert button cell medium-3"
+           title="Показать полный список городов">Сбросить фильтры</a>
+    </form>
+</div>
+<br>
+{{ pageFlipper(model.uri) }}
+<div class="grid-x align-center">
+    <div class="cell shrink">
+        {% if model.cities is empty %}
+        <div class="callout warning">
+            <h4>Данные на этой странице отсутствуют</h4>
+        </div>
+        {% else %}
+            <table class="hover">
+                <thead>
+                    <tr>
+                        <th>Название города</th>
+                        <th>Подробно</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for city in model.cities %}
+                    <tr>
+                        <td>{{city.name}}</td>
+                        <td>
+                            <a href="/cities/{{city.name}}" class="button"
+                               title="Полная информация о городе {{city.name}}">Больше информации</a>
+                        </td>
+                    </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
+<br>
+<div class="grid-x align-center">
+    <div class="cell shrink">
+        <a href="/cities/new" class="large button success" title="Открыть форму по добавлению города">Добавить город</a>
+    </div>
+</div>
+{% endblock %}

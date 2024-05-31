@@ -1,0 +1,68 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Специалисты
+{% endblock %}
+
+{% block menu %}
+{{ menu(5) }}
+{% endblock %}
+
+{% block content %}
+{{ listHeader("специалистов") }}
+<div class="grid-container">
+    <form class="grid-x grid-margin-x align-center align-bottom" method="GET">
+        <label class="cell medium-4"><strong>Поиск по имени специалиста</strong>
+            <input type="text" name="full_name"
+                   value = "{{ model.fullName }}">
+        </label>
+        <label class="cell medium-2"><strong>Поиск по телефону</strong>
+            <input type="tel" name="phone"
+                   value = "{{ model.phone}}">
+        </label>
+        <input class="button success cell medium-3" type="submit" value="Искать">
+        <a href="/specialists" class="alert button cell medium-3"
+           title="Показать полный список специалистов">Сбросить фильтры</a>
+    </form>
+</div>
+
+{{ pageFlipper(model.uri) }}
+
+<div class="grid-x align-center">
+    <div class="cell shrink">
+        {% if model.specialists is empty %}
+        <div class="callout warning">
+            <h4>Данные на этой странице отсутствуют</h4>
+        </div>
+        {% else %}
+            <table class="hover">
+                <thead>
+                    <tr>
+                        <th>ФИО специалиста</th>
+                        <th>Телефон</th>
+                        <th>Подробно</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for specialist in model.specialists %}
+                    <tr>
+                        <td>{{ specialist.fullName }}</td>
+                        <td>{{ specialist.phone }}</td>
+                        <td>
+                            <a href="/specialists/{{ specialist.id }}" class="button"
+                               title="Полная информация о специалисте {{ specialist.fullName }}">Больше информации</a>
+                        </td>
+                    </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
+<br>
+<div class="grid-x align-center">
+    <div class="cell shrink">
+        <a href="/specialists/new" class="large button success" title="Открыть форму добавления нового специалиста">Добавить специалиста</a>
+    </div>
+</div>
+{% endblock %}

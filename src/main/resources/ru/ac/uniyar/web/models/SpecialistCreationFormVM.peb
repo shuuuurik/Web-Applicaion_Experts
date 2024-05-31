@@ -1,0 +1,34 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Добавление специалиста
+{% endblock %}
+
+{% block menu%}
+{{ menu(0) }}
+{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Заполните форму, чтобы добавить нового специалиста</h2>
+{{ showErrorFormInfo(model.form) }}
+<div class="grid-x align-center">
+    <div class="cell small-3">
+        <form method="POST">
+                <label><strong>ФИО специалиста</strong>
+                    <input type="text" maxlength="50" name="full_name"
+                           value = "{{ model.form.fields["full_name"] | first}}"
+                    >
+                </label>
+                <label><strong>Образование, сертификация</strong>
+                    <textarea name="education" rows="5">{{ model.form.fields["education"] | first}}</textarea>
+                </label>
+                <label for="phone"><strong>Номер телефона</strong>
+                    <input type="tel" maxlength="15" name="phone"
+                           value = "{{ model.form.fields["phone"] | first}}"
+                    >
+                </label>
+            <input class="button success cell" type="submit" value="Отправить">
+        </form>
+    </div>
+</div>
+{% endblock %}

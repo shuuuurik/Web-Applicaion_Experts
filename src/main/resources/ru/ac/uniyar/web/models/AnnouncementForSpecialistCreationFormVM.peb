@@ -1,0 +1,45 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Добавление объявления
+{% endblock %}
+
+{% block menu%}
+{{ menu(0) }}
+{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Заполните форму, чтобы добавить новое объявление</h2>
+<h2 class="text-center">для специалиста <em>{{ model.specialistName }}</em></h2>
+{{ showErrorFormInfo(model.form) }}
+<div class="grid-x align-center">
+    <div class="cell small-3">
+        <form method="POST">
+            <label><strong>Категория услуг</strong>
+                <select name="category">
+                    <option value="">Выберите категорию</option>
+                    {{ comboBox(model.categories, model.form.fields["category"] | first) }}
+                </select>
+            </label>
+            <label><strong>Название</strong>
+                <input type="text" maxlength="30" name="title"
+                       value = "{{ model.form.fields["title"] | first}}"
+                >
+            </label>
+            <label><strong>Город</strong>
+                <select name="city">
+                    <option value="">Выберите город</option>
+                    {{ comboBox(model.cities, model.form.fields["city"] | first) }}
+                </select>
+            </label>
+            <label><strong>Описание</strong>
+                <textarea name="description" rows="5">{{ model.form.fields["description"] | first}}</textarea>
+            </label>
+            <label><strong>ФИО специалиста</strong>
+                <input type="text" name="specialist" value="{{model.specialistName}}" disabled>
+            </label>
+            <input class="button success cell" type="submit" value="Отправить">
+        </form>
+    </div>
+</div>
+{% endblock %}

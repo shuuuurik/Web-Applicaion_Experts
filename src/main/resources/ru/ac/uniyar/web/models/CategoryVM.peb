@@ -1,0 +1,34 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Информация
+{% endblock %}
+
+{% block menu%}
+{{ menu(0) }}
+{% endblock %}
+
+{% set data = model.category %}
+{% block content %}
+{{ entityHeader("о категории", "/categories", "категорий", "категориям услуг") }}
+<div class="grid-x align-center">
+    <div class="cell medium-6 primary callout">
+        <div class="grid-x align-justify align-middle">
+            <div class="cell shrink">
+                {{ entityFieldInfo("Название категории", data.name) }}
+            </div>
+            {% if data.announcementsNumber == 0 %}
+                <div class="cell shrink callout warning">
+                    <h5>Объявлений по данной категории нет</h5>
+                </div>
+            {% else %}
+                <a href="/announcements?category={{ data.name }}" class="button cell shrink"
+                   title="Полная страница объявлений по категории услуг {{ data.name }}">Смотреть объявления по данной категории
+                </a>
+            {% endif %}
+        </div>
+        {{ entityFieldInfo("Количество объявлений", data.announcementsNumber) }}
+        {{ entityFieldInfo("Дата добавления", data.addingTime) }}
+    </div>
+</div>
+{% endblock %}

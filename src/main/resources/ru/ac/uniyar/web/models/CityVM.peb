@@ -1,0 +1,63 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Информация
+{% endblock %}
+
+{% block menu%}
+{{ menu(0) }}
+{% endblock %}
+
+{% set data = model.city %}
+{% block content %}
+{{ entityHeader("о городе", "/cities", "городов", "городам") }}
+<div class="grid-x align-center">
+    <div class="cell medium-6 primary callout">
+        <div class="grid-x align-justify align-middle">
+            <div class="cell shrink">
+                {{ entityFieldInfo("Название города", data.name) }}
+            </div>
+            {% if model.categories is empty %}
+                <div class="cell shrink callout warning">
+                    <h5>Объявлений в г. {{ data.name }} нет</h5>
+                </div>
+            {% else %}
+                <a href="/announcements?city={{ data.name }}" class="button cell shrink"
+                   title="Полная страница объявлений в г. {{ data.name }}">Смотреть объявления в данном городе
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% if model.categories is not empty %}
+<div class="grid-x align-center">
+    <h3 class="cell text-center">Список категорий услуг в г. {{ data.name }}</h3>
+    <div class="grid-x grid-margin-x">
+        <div class="cell shrink">
+            <table class="hover">
+                <thead>
+                <tr>
+                    <th>Категория услуг</th>
+                    <th>Объявлений в данном городе</th>
+                    <th>Подробнее</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for category in model.categories %}
+                    <tr>
+                        <td>{{ category.name }}</td>
+                        <td class="text-center">{{ category.announcementsNumber }}</td>
+                        <td>
+                            <a href="/announcements?category={{ category.name }}&city={{ data.name }}" class="button"
+                               title="Полная страница объявлений по данной категории в г. {{ data.name }}">Больше информации</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
