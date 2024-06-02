@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block menu %}
-{{ menu(4) }}
+{{ menu(4, permissions, currentUser) }}
 {% endblock %}
 
 {% block content %}
@@ -45,7 +45,7 @@
                         <td>{{ category.name }}</td>
                         <td class="text-center">{{ category.announcementsNumber }}</td>
                         <td>
-                            <a href="/categories/{{ category.name }}" class="button"
+                            <a href="/categories/{{ category.id }}" class="button"
                                title="Полная информация о категории услуг {{ category.name }}">Больше информации</a>
                         </td>
                     </tr>
@@ -55,10 +55,12 @@
         {% endif %}
     </div>
 </div>
+{% if permissions.addCategory %}
 <br>
 <div class="grid-x align-center">
     <div class="cell shrink">
         <a href="/categories/new" class="large button success" title="Открыть форму по добавлению категории">Добавить категорию</a>
     </div>
 </div>
+{% endif %}
 {% endblock %}

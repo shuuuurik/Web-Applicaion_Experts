@@ -1,0 +1,27 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Отклонение заявки
+{% endblock %}
+
+{% block menu%}
+{{ menu(0, permissions, currentUser) }}
+{% endblock %}
+
+{% block content %}
+<br>
+{{ showErrorFormInfo(model.form) }}
+<form method="POST">
+    <div class="grid-x align-center">
+        <div class="cell medium-4">
+            <label><strong>Причина отклонения</strong>
+                <textarea name="reason" rows="5">{{ model.form.fields["reason"] | first}}</textarea>
+            </label>
+            <input class="large alert button cell" type="submit" value="Отклонить заявку">
+            <div class="grid-x align-center">
+                <a class="button cell shrink" href="./">Вернуться к заявке</a>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

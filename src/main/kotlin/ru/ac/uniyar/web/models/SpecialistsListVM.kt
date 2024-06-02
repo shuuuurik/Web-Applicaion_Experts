@@ -1,11 +1,11 @@
 package ru.ac.uniyar.web.models
 
 import org.http4k.template.ViewModel
-import ru.ac.uniyar.domain.database.entities.Specialist
-import ru.ac.uniyar.domain.operations.UriWithPageQuery
+import ru.ac.uniyar.domain.database.entities.UriWithPageQuery
+import ru.ac.uniyar.domain.database.entities.User
 
 data class SpecialistsListVM(
-    val specialists: List<Specialist>,
+    val specialists: List<User>,
     val uri: UriWithPageQuery,
     val fullName: String,
     val phone: String,

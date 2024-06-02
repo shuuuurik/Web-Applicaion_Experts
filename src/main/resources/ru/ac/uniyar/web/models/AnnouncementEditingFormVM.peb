@@ -1,0 +1,60 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Редактирование объявления
+{% endblock %}
+
+{% block menu%}
+{{ menu(0, permissions, currentUser) }}
+{% endblock %}
+
+{% block content %}
+<br>
+<h2 class="text-center">Редактирование объявления</h2>
+{{ showErrorFormInfo(model.form) }}
+
+{% set announcement=model.announcement %}
+<form method="POST">
+    <div class="grid-x align-center">
+        <div class="cell medium-4">
+            <label><strong>Категория услуг</strong>
+                <select name="category">
+                    <option value="{{ announcement.categoryId }}">{{ announcement.category }}</option>
+                    {% set selected = model.form.fields["category"] | first %}
+                    {{ comboBox(model.categories, selected) }}
+                </select>
+            </label>
+            <label><strong>Город</strong>
+                <select name="city">
+                    <option value="{{ announcement.city }}">{{ announcement.city }}</option>
+                    {{ comboBox(model.cities, model.form.fields["city"] | first) }}
+                </select>
+            </label>
+            {% set edited_title = model.form.fields["title"] | first %}
+            <label><strong>Название</strong>
+                <input type="text" maxlength="30" name="title"
+                    {% if not edited_title %}
+                       value = "{{ announcement.title }}"
+                            {% else %}
+                       value = "{{ edited_title }}"
+                    {% endif %}
+                >
+            </label>
+            {% set edited_description = model.form.fields["description"] | first %}
+            <label><strong>Описание</strong>
+                {% if not edited_description %}
+                    <textarea name="description" rows="5">{{ announcement.description }}</textarea>
+                    {% else %}
+                    <textarea name="description" rows="5">{{ edited_description }}</textarea>
+                {% endif %}
+            </label>
+            <input class="button success cell" type="submit" value="Сохранить">
+        </div>
+
+    </div>
+    <br>
+    <div class="grid-x align-center">
+        <a class="cell shrink" href="/profile">Вернуться к профилю</a>
+    </div>
+</form>
+{% endblock %}

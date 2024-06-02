@@ -1,4 +1,4 @@
-{% macro menu(number) %}
+{% macro menu(number, permissions, user) %}
 <li
     {% if number == 1  %}
             class="is-active"
@@ -35,15 +35,39 @@
         <h5>Категории услуг</h5>
     </a>
 </li>
-<li
-    {% if number == 5  %}
-            class="is-active"
-    {% endif %}
->
-    <a href="/specialists" title="Посмотреть список специалистов">
-        <h5>Специалисты</h5>
-    </a>
-</li>
+{% if permissions.listSpecialists %}
+    <li
+        {% if number == 5  %}
+                class="is-active"
+        {% endif %}
+    >
+        <a href="/specialists" title="Посмотреть список специалистов">
+            <h5>Специалисты</h5>
+        </a>
+    </li>
+{% endif %}
+{% if permissions.listRequests %}
+    <li
+        {% if number == 6  %}
+                class="is-active"
+        {% endif %}
+    >
+        <a href="/requests" title="Посмотреть список заявок">
+            <h5>Заявки</h5>
+        </a>
+    </li>
+{% endif %}
+{% if permissions.name == "Специалист" %}
+    <li
+        {% if number == 7  %}
+                class="is-active"
+        {% endif %}
+    >
+        <a href="/specialists/{{ user.username }}" title="Перейти на личную страницу специалиста">
+            <h5>Личная страница</h5>
+        </a>
+    </li>
+{% endif %}
 {% endmacro %}
 
 {% macro showErrorFormInfo(form) %}
@@ -87,6 +111,17 @@
     {% for entity in list %}
     <option value="{{entity.name}}"
         {% if entity.name == selected %}
+            selected
+        {% endif %}>
+            {{entity.name}}
+    </option>
+    {% endfor %}
+{% endmacro %}
+
+{% macro comboBox1(list, selected) %}
+    {% for entity in list %}
+    <option value="{{entity.id}}"
+        {% if entity.id.toString() == selected %}
             selected
         {% endif %}>
             {{entity.name}}

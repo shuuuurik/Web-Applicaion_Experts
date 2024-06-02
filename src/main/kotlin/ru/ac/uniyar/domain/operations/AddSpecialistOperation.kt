@@ -1,23 +1,23 @@
 package ru.ac.uniyar.domain.operations
 
 import org.ktorm.database.Database
-import org.ktorm.dsl.insert
-import ru.ac.uniyar.domain.database.tables.SpecialistTable
+import org.ktorm.dsl.eq
+import org.ktorm.dsl.update
+import ru.ac.uniyar.domain.database.tables.UserTable
 import java.time.LocalDateTime
 
 class AddSpecialistOperation(
     private val database: Database,
 ) {
-    fun add(
-        fullName: String,
-        education: String,
-        phone: String
-    ) {
-        database.insert(SpecialistTable) {
-            set(it.full_name, fullName)
+    @Suppress("MagicNumber")
+    fun add(username: String, education: String) {
+        database.update(UserTable) {
             set(it.education, education)
-            set(it.phone, phone)
-            set(it.adding_time, LocalDateTime.now())
+            set(it.addingTime, LocalDateTime.now())
+            set(it.roleId, 3)
+            where {
+                it.username eq username
+            }
         }
     }
 }

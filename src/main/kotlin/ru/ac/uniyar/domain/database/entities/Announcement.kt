@@ -2,31 +2,33 @@ package ru.ac.uniyar.domain.database.entities
 
 import org.ktorm.dsl.QueryRowSet
 import ru.ac.uniyar.domain.database.tables.AnnouncementTable
+import ru.ac.uniyar.domain.database.tables.CategoryTable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-data class Announcement(
-    val id: Int,
-    val category: String,
-    val title: String,
-    val city: String,
-    val description: String,
-    val specialistId: Int,
-    val addingTime: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm"))
+@Suppress("LongParameterList")
+open class Announcement(
+    open val id: Int,
+    open val category: String,
+    open val city: String,
+    open val title: String,
+    open val description: String,
+    open val specialistUsername: String,
+    open val addingTime: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm"))
 ) {
     companion object {
         fun fromResultSet(row: QueryRowSet): Announcement? =
             try {
                 Announcement(
                     row[AnnouncementTable.id]!!,
-                    row[AnnouncementTable.category]!!,
-                    row[AnnouncementTable.title]!!,
+                    row[CategoryTable.name]!!,
                     row[AnnouncementTable.city]!!,
+                    row[AnnouncementTable.title]!!,
                     row[AnnouncementTable.description]!!,
-                    row[AnnouncementTable.specialistId]!!,
-                    row[AnnouncementTable.adding_time]!!.format(DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm"))
+                    row[AnnouncementTable.specialistUsername]!!,
+                    row[AnnouncementTable.addingTime]!!.format(DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm"))
                 )
-            } catch (npe: NullPointerException) {
+            } catch (_: NullPointerException) {
                 null
             }
     }

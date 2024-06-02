@@ -5,18 +5,17 @@ import org.http4k.core.Request
 import org.http4k.core.Response
 import org.http4k.core.Status
 import org.http4k.core.with
-import org.http4k.lens.BiDiBodyLens
 import org.http4k.lens.Query
 import org.http4k.lens.string
-import org.http4k.template.ViewModel
+import ru.ac.uniyar.domain.database.entities.UriWithPageQuery
 import ru.ac.uniyar.domain.operations.ListCitiesByNameOperation
-import ru.ac.uniyar.domain.operations.UriWithPageQuery
 import ru.ac.uniyar.web.lenses.PageLens
 import ru.ac.uniyar.web.lenses.lensOrDefault
 import ru.ac.uniyar.web.models.CitiesListVM
+import ru.ac.uniyar.web.templates.ContextAwareViewRender
 
 class ShowCitiesListHandler(
-    private val htmlView: BiDiBodyLens<ViewModel>,
+    private val htmlView: ContextAwareViewRender,
     private val listCitiesByNameOperation: ListCitiesByNameOperation
 ) : HttpHandler {
     companion object {
@@ -27,7 +26,7 @@ class ShowCitiesListHandler(
         val name = lensOrDefault(nameLens, request, "")
         val cities = listCitiesByNameOperation.list(page, name)
         return Response(Status.OK).with(
-            htmlView of CitiesListVM(
+            htmlView(request) of CitiesListVM(
                 cities,
                 UriWithPageQuery(request.uri, page),
                 name,

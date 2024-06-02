@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block menu %}
-{{ menu(3) }}
+{{ menu(3, permissions, currentUser) }}
 {% endblock %}
 
 {% block content %}
@@ -53,10 +53,12 @@
         {% endif %}
     </div>
 </div>
+{% if permissions.addCity %}
 <br>
 <div class="grid-x align-center">
     <div class="cell shrink">
         <a href="/cities/new" class="large button success" title="Открыть форму по добавлению города">Добавить город</a>
     </div>
 </div>
+{% endif %}
 {% endblock %}

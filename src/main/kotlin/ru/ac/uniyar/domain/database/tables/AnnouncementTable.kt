@@ -8,10 +8,10 @@ import org.ktorm.schema.varchar
 
 object AnnouncementTable : Table<Nothing>("ANNOUNCEMENT") {
     val id = int("ID").primaryKey()
-    val adding_time = datetime("ADDING_TIME")
-    val category = varchar("CATEGORY_NAME")
+    val addingTime = datetime("ADDING_TIME")
+    val categoryId = int("CATEGORY_ID")
     val title = varchar("TITLE")
     val city = varchar("CITY_NAME")
     val description = text("DESCRIPTION")
-    val specialistId = int("SPECIALIST_ID")
+    val specialistUsername = varchar("USERS_USERNAME")
 }

@@ -1,0 +1,40 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Информация
+{% endblock %}
+
+{% block menu%}
+{{ menu(0, permissions, currentUser) }}
+{% endblock %}
+
+{% set request = model.requestInfo.request %}
+{% set user = model.requestInfo.user %}
+{% block content %}
+{{ entityHeader("о заявке", "/requests", "заявок", "заявкам") }}
+<div class="grid-x align-center">
+    <div class="cell medium-6 primary callout">
+        {{ entityFieldInfo("ФИО пользователя", user.fullName) }}
+        {{ entityFieldInfo("Номер телефона", user.phone) }}
+        {{ entityFieldInfo("Город", user.currentCity) }}
+        {{ entityFieldInfo("Категория", request.category) }}
+        {{ entityFieldInfo("Образование, сертификация", request.education) }}
+        {{ entityFieldInfo("Опыт работы в данной категории", request.experience) }}
+        {{ entityFieldInfo("Дата добавления", request.addingTime) }}
+        {{ entityFieldInfo("Статус заявки", request.status) }}
+        {% if request.reason is not empty %}
+            {{ entityFieldInfo("Причина отклонения", request.reason) }}
+        {% endif %}
+        {% if permissions.editRequest and request.status == "Новая" %}
+            <form method="POST">
+                <div class="grid-x align-justify align-middle">
+                    <input type="submit" class="success large button cell medium-5" value="Принять заявку">
+                    <a href="/requests/{{ request.id }}/discard" class="alert large button cell medium-5"
+                       title="Открыть форму указания причины отклонения заявки"> Отклонить заявку
+                    </a>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

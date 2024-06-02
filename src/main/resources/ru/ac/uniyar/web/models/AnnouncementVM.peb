@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block menu%}
-{{ menu(0) }}
+{{ menu(0, permissions, currentUser) }}
 {% endblock %}
 
 {% set data = model.announcement %}
@@ -13,12 +13,21 @@
 {{ entityHeader("об объявлении", "/announcements", "объявлений", "объявлениям") }}
 <div class="grid-x grid-margin-x align-center">
     <div class="cell medium-6 primary callout">
-        {{ entityFieldInfo("Дата добавления", data.addingTime) }}
-        {{ entityFieldInfoWithButton("Категория услуг", data.category, "/categories/", data.category, "категории") }}
         {{ entityFieldInfo("Название", data.title) }}
+        {{ entityFieldInfoWithButton("Категория услуг", data.category, "/categories/", data.categoryId, "категории") }}
         {{ entityFieldInfoWithButton("Город", data.city, "/cities/", data.city, "города") }}
         {{ entityFieldInfo("Описание", data.description) }}
-        {{ entityFieldInfoWithButton("ФИО специалиста", model.specialistName, "/specialists/", data.specialistId, "специалиста") }}
+        {% if permissions.showSpecialist %}
+        {{ entityFieldInfoWithButton("ФИО специалиста", model.specialistName, "/specialists/", data.specialistUsername, "специалиста") }}
+        {% endif %}
+        {{ entityFieldInfo("Дата добавления", data.addingTime) }}
+        {% if permissions.editAnnouncement and data.specialistUsername == currentUser.username %}
+            <div class="grid-x align-center">
+                <a href="/announcements/{{ data.id }}/edit" class="large success button cell shrink"
+                   title="Изменить указанные в объявлении данные">Редактировать объявление
+                </a>
+            </div>
+        {% endif %}
     </div>
 </div >
 {% endblock %}

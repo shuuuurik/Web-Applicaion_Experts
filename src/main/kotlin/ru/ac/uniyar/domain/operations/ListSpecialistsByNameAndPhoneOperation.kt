@@ -3,6 +3,7 @@ package ru.ac.uniyar.domain.operations
 import org.ktorm.database.Database
 import org.ktorm.dsl.and
 import org.ktorm.dsl.asc
+import org.ktorm.dsl.eq
 import org.ktorm.dsl.from
 import org.ktorm.dsl.like
 import org.ktorm.dsl.limit
@@ -11,8 +12,8 @@ import org.ktorm.dsl.orderBy
 import org.ktorm.dsl.select
 import org.ktorm.dsl.where
 import org.ktorm.support.mysql.toLowerCase
-import ru.ac.uniyar.domain.database.entities.Specialist
-import ru.ac.uniyar.domain.database.tables.SpecialistTable
+import ru.ac.uniyar.domain.database.entities.User
+import ru.ac.uniyar.domain.database.tables.UserTable
 
 class ListSpecialistsByNameAndPhoneOperation(
     private val database: Database,
@@ -20,15 +21,17 @@ class ListSpecialistsByNameAndPhoneOperation(
     companion object {
         const val SPECIALISTS_PER_PAGE = 5
     }
-    fun list(page: Int, fullName: String, phone: String): List<Specialist> =
+
+    @Suppress("MagicNumber")
+    fun list(page: Int, fullName: String, phone: String): List<User> =
         database
-            .from(SpecialistTable)
+            .from(UserTable)
             .select()
             .where {
-                (SpecialistTable.full_name.toLowerCase() like "%${fullName.lowercase()}%") and
-                    (SpecialistTable.phone like "%$phone%")
+                (UserTable.fullName.toLowerCase() like "%${fullName.lowercase()}%") and
+                    (UserTable.phone like "%$phone%") and (UserTable.roleId eq 3)
             }
-            .orderBy(SpecialistTable.adding_time.asc())
+            .orderBy(UserTable.addingTime.asc())
             .limit((page - 1) * SPECIALISTS_PER_PAGE, SPECIALISTS_PER_PAGE)
-            .mapNotNull(Specialist::fromResultSet)
+            .mapNotNull(User::fromResultSet)
 }

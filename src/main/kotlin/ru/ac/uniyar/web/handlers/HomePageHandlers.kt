@@ -5,25 +5,31 @@ import org.http4k.core.Request
 import org.http4k.core.Response
 import org.http4k.core.Status
 import org.http4k.core.with
-import org.http4k.lens.BiDiBodyLens
-import org.http4k.template.ViewModel
 import ru.ac.uniyar.domain.operations.CountAnnouncementsOperation
 import ru.ac.uniyar.domain.operations.CountSpecialistsOperation
+import ru.ac.uniyar.domain.operations.ListUsersOperation
 import ru.ac.uniyar.web.models.ERMPageVM
 import ru.ac.uniyar.web.models.HomePageVM
+import ru.ac.uniyar.web.templates.ContextAwareViewRender
 import kotlin.math.roundToInt
 
 class ShowHomePageHandler(
-    private val htmlView: BiDiBodyLens<ViewModel>,
+    private val htmlView: ContextAwareViewRender,
     private val countSpecialistsOperation: CountSpecialistsOperation,
-    private val countAnnouncementsOperation: CountAnnouncementsOperation
+    private val countAnnouncementsOperation: CountAnnouncementsOperation,
+    private val listUsersOperation: ListUsersOperation
 ) : HttpHandler {
     override fun invoke(request: Request): Response {
         val specialistsNumber = countSpecialistsOperation.count()
         val announcementsNumber = countAnnouncementsOperation.count()
         val avgAnnouncementNumber =
-            (announcementsNumber.toFloat() / specialistsNumber.toFloat() * 10.toFloat()).roundToInt() / 10.toFloat()
-        return Response(Status.OK).with(htmlView of HomePageVM(specialistsNumber, avgAnnouncementNumber))
+            if (specialistsNumber == 0)
+                0.toFloat()
+            else
+                (announcementsNumber.toFloat() / specialistsNumber.toFloat() * 10.toFloat()).roundToInt() / 10.toFloat()
+        return Response(Status.OK).with(
+            htmlView(request) of HomePageVM(specialistsNumber, avgAnnouncementNumber, listUsersOperation.list())
+        )
     }
 }
 
@@ -34,9 +40,9 @@ class RedirectToHomeHandler : HttpHandler {
 }
 
 class ShowERMHandler(
-    private val htmlView: BiDiBodyLens<ViewModel>
+    private val htmlView: ContextAwareViewRender
 ) : HttpHandler {
     override fun invoke(request: Request): Response {
-        return Response(Status.OK).with(htmlView of ERMPageVM())
+        return Response(Status.OK).with(htmlView(request) of ERMPageVM())
     }
 }

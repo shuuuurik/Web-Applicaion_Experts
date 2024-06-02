@@ -5,10 +5,11 @@
 {% endblock %}
 
 {% block menu%}
-{{ menu(0) }}
+{{ menu(0, permissions, currentUser) }}
 {% endblock %}
 
 {% block content %}
+<br>
 <h2 class="text-center">Заполните форму, чтобы добавить новую категорию услуг</h2>
 {{ showErrorFormInfo(model.form) }}
 

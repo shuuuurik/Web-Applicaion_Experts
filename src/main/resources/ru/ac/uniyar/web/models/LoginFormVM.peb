@@ -1,0 +1,48 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Вход
+{% endblock %}
+
+{% block menu%}
+{{ menu(0, permissions, currentUser) }}
+{% endblock %}
+
+{% block content %}
+<br>
+<div class="grid-x align-center">
+    <div class="cell shrink">
+        <h2>Авторизация</h2>
+        <p>Пожалуйста, авторизуйтесь</p>
+    </div>
+</div>
+{{ showErrorFormInfo(model.form) }}
+
+<div class="grid-container">
+    <form method="POST">
+        <div class="grid-x align-center">
+            <div class="cell medium-8">
+                <div class="grid-x align-center-middle grid-margin-x">
+                    <div class="cell medium-6">
+                        <label><strong>Имя пользователя</strong>
+                            <input type="text" maxlength="50" name="username"
+                                   value = "{{ model.form.fields["username"] | first}}"
+                            >
+                        </label>
+                    </div>
+                    <div class="cell medium-6">
+                        <label><strong>Пароль</strong>
+                            <input type="password" maxlength="64" name="password"
+                                   value = "{{ model.form.fields["password"] | first}}"
+                            >
+                        </label>
+                    </div>
+                    <input type="submit" class="large button cell medium-3" value="Войти">
+                    <a class="cell shrink medium-3" href="/">На главную страницу</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
