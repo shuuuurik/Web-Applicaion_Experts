@@ -1,0 +1,31 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Профиль
+{% endblock %}
+
+{% block menu%}
+{{ menu(0, permissions, currentUser) }}
+{% endblock %}
+
+
+{% set user = currentUser %}
+{% block content %}
+<br>
+<h2 class="text-center">Профиль</h2>
+<div class="grid-x grid-margin-x align-center">
+    <div class="cell medium-4 primary callout">
+        {{ entityFieldInfo("Имя пользователя", user.username) }}
+        {{ entityFieldInfo("ФИО пользователя", user.fullName) }}
+        {{ entityFieldInfo("Номер телефона", user.phone) }}
+        {{ entityFieldInfo("Город пребывания", user.currentCity) }}
+        <div class="grid-x align-center">
+            {% if permissions.editUser %}
+            <a href="/profile/edit" class="button cell shrink"
+               title="Изменить указанные в профиле данные">Редактировать профиль
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div >
+{% endblock %}

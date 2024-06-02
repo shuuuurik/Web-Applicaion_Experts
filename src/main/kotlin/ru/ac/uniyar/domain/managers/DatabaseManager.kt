@@ -2,10 +2,11 @@ package ru.ac.uniyar.domain.managers
 
 import org.ktorm.database.Database
 import org.ktorm.support.mysql.MySqlDialect
+import ru.ac.uniyar.config.DataBaseConfig
 
-fun connectToDatabase() = Database.connect(
-    url = H2DatabaseManager.JDBC_CONNECTION,
+fun connectToDatabase(databaseConfig: DataBaseConfig) = Database.connect(
+    url = databaseConfig.createJDBC(),
     driver = "org.h2.Driver",
-    user = "sa",
+    user = databaseConfig.dbUsername,
     dialect = MySqlDialect(),
 )

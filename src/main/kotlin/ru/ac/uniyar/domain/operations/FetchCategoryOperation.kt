@@ -16,12 +16,12 @@ import ru.ac.uniyar.domain.database.tables.announcementCount
 class FetchCategoryOperation(
     private val database: Database,
 ) {
-    fun fetch(categoryName: String): CategoryWithAnnouncementsNumber? =
+    fun fetch(categoryId: Int): CategoryWithAnnouncementsNumber? =
         database
             .from(CategoryTable)
-            .leftJoin(AnnouncementTable, on = CategoryTable.name eq AnnouncementTable.category)
-            .select(CategoryTable.name, announcementCount, CategoryTable.adding_time)
-            .where { CategoryTable.name eq categoryName }
+            .leftJoin(AnnouncementTable, on = CategoryTable.id eq AnnouncementTable.categoryId)
+            .select(CategoryTable.id, CategoryTable.name, announcementCount, CategoryTable.adding_time)
+            .where { CategoryTable.id eq categoryId }
             .groupBy(CategoryTable.name)
             .mapNotNull(CategoryWithAnnouncementsNumber::fromResultSet)
             .firstOrNull()

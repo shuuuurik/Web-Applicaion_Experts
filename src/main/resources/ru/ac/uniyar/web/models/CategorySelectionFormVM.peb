@@ -1,0 +1,31 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Выбор категории
+{% endblock %}
+
+{% block menu%}
+{{ menu(0, permissions, currentUser) }}
+{% endblock %}
+
+{% block content %}
+<br>
+<h2 class="text-center">Выберите категорию для добавления объявления</h2>
+{{ showErrorFormInfo(model.form) }}
+<br>
+<form method="POST">
+    <div class="grid-x align-center">
+        <div class="cell medium-4">
+            <label><strong>Категория услуг</strong>
+                <select name="category">
+                    <option value="">Выберите категорию</option>
+                    {{ comboBox1(model.categories, model.form.fields["category"] | first) }}
+                </select>
+            </label>
+            <br>
+            <br>
+            <input class="button success cell" type="submit" value="Продолжить">
+        </div>
+    </div>
+</form>
+{% endblock %}

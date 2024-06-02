@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block menu %}
-{{ menu(5) }}
+{{ menu(5, permissions, currentUser) }}
 {% endblock %}
 
 {% block content %}
@@ -49,7 +49,7 @@
                         <td>{{ specialist.fullName }}</td>
                         <td>{{ specialist.phone }}</td>
                         <td>
-                            <a href="/specialists/{{ specialist.id }}" class="button"
+                            <a href="/specialists/{{ specialist.username }}" class="button"
                                title="Полная информация о специалисте {{ specialist.fullName }}">Больше информации</a>
                         </td>
                     </tr>
@@ -57,12 +57,6 @@
                 </tbody>
             </table>
         {% endif %}
-    </div>
-</div>
-<br>
-<div class="grid-x align-center">
-    <div class="cell shrink">
-        <a href="/specialists/new" class="large button success" title="Открыть форму добавления нового специалиста">Добавить специалиста</a>
     </div>
 </div>
 {% endblock %}

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block menu%}
-{{ menu(0) }}
+{{ menu(0, permissions, currentUser) }}
 {% endblock %}
 
 {% set data = model.category %}

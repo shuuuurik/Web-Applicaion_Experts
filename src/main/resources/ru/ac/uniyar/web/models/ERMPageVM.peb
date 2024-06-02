@@ -5,15 +5,17 @@ ERM
 {% endblock %}
 
 {% block menu%}
-{{ menu(0) }}
+{{ menu(0, permissions, currentUser) }}
 {% endblock %}
 
 {% block content %}
+<br>
 <div class="grid-x align-center">
         <div class="cell shrink">
-            <img src="../images/erm.jpg" alt="Изображение с ER-диаграммой сущностей">
+            <img src="../images/erm.png" alt="Изображение с ER-диаграммой сущностей">
         </div>
 </div>
+<br>
 <div class="grid-x align-center">
         <a href="/home" class="large button" title="Общая информация о сервисе Experts">Вернуться на стартовую страницу</a>
 </div>

@@ -1,0 +1,57 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Редактирование профиля
+{% endblock %}
+
+{% block menu%}
+{{ menu(0, permissions, currentUser) }}
+{% endblock %}
+
+{% block content %}
+<br>
+<h2 class="text-center">Редактирование профиля</h2>
+{{ showErrorFormInfo(model.form) }}
+
+<form method="POST">
+    <div class="grid-x align-center">
+        <div class="cell medium-4">
+            <label><strong>Имя пользователя</strong>
+                <input type="text" value="{{ currentUser.username }}" disabled>
+            </label>
+            {% set edited_fullname = model.form.fields["full_name"] | first %}
+            <label><strong>ФИО пользователя</strong>
+                <input type="text" maxlength="50" name="full_name"
+                   {% if not edited_fullname %}
+                       value = "{{ currentUser.fullName }}"
+                   {% else %}
+                       value = "{{ edited_fullname }}"
+                   {% endif %}
+                >
+            </label>
+            {% set edited_phone = model.form.fields["phone"] | first %}
+            <label for="phone"><strong>Номер телефона</strong>
+                <input type="tel" maxlength="15" name="phone"
+                    {% if not edited_phone %}
+                       value = "{{ currentUser.phone }}"
+                            {% else %}
+                       value = "{{ edited_phone }}"
+                    {% endif %}
+                >
+            </label>
+            <label><strong>Город пребывания</strong>
+                <select name="city">
+                    <option value="{{ currentUser.currentCity }}">{{ currentUser.currentCity }}</option>
+                    {{ comboBox(model.cities, model.form.fields["city"] | first) }}
+                </select>
+            </label>
+            <input class="button success cell" type="submit" value="Сохранить">
+        </div>
+
+    </div>
+    <br>
+    <div class="grid-x align-center">
+        <a class="cell shrink" href="/profile">Вернуться к профилю</a>
+    </div>
+</form>
+{% endblock %}

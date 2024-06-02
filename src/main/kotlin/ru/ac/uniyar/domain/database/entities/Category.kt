@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 open class Category(
+    open val id: Int,
     open val name: String,
     open val addingTime: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yy, HH:mm"))
 ) {
@@ -13,10 +14,11 @@ open class Category(
         fun fromResultSet(row: QueryRowSet): Category? =
             try {
                 Category(
+                    row[CategoryTable.id]!!,
                     row[CategoryTable.name]!!,
                     row[CategoryTable.adding_time]!!.format(DateTimeFormatter.ofPattern("dd.MM.yy, HH:mm"))
                 )
-            } catch (npe: NullPointerException) {
+            } catch (_: NullPointerException) {
                 null
             }
     }

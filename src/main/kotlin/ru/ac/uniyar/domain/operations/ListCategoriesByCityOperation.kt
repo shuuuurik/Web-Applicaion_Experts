@@ -27,7 +27,7 @@ class ListCategoriesByCityOperation(
         database
             .from(AnnouncementTable)
             .leftJoin(CityTable, on = AnnouncementTable.city eq CityTable.name)
-            .leftJoin(CategoryTable, on = AnnouncementTable.category eq CategoryTable.name)
+            .leftJoin(CategoryTable, on = AnnouncementTable.categoryId eq CategoryTable.id)
             .select(CategoryTable.name, announcementCount, CategoryTable.adding_time)
             .where { CityTable.name eq cityName }
             .groupBy(CategoryTable.name)

@@ -1,0 +1,42 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Редактирование специалиста
+{% endblock %}
+
+{% block menu%}
+{{ menu(0, permissions, currentUser) }}
+{% endblock %}
+
+{% block content %}
+<br>
+<h2 class="text-center">Редактирование образования</h2>
+{{ showErrorFormInfo(model.form) }}
+
+<form method="POST">
+    <div class="grid-x align-center">
+        <div class="cell medium-4">
+            <label><strong>Никнейм специалиста</strong>
+                <input type="text" value="{{ currentUser.username }}" disabled>
+            </label>
+            <label><strong>ФИО специалиста</strong>
+                <input type="text" value="{{ currentUser.fullName }}" disabled>
+            </label>
+            <label><strong>Образование, сертификация</strong>
+                {% set edited_education = model.form.fields["education"] | first %}
+                {% if not edited_education %}
+                    <textarea name="education" rows="5">{{ currentUser.education }}</textarea>
+                {% else %}
+                    <textarea name="education" rows="5">{{ edited_education }}</textarea>
+                {% endif %}
+            </label>
+            <input class="button success cell" type="submit" value="Сохранить">
+        </div>
+
+    </div>
+    <br>
+    <div class="grid-x align-center">
+        <a class="cell shrink" href="/profile">Вернуться к профилю</a>
+    </div>
+</form>
+{% endblock %}

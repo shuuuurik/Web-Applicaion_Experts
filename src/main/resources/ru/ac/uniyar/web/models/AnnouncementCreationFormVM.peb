@@ -5,20 +5,18 @@
 {% endblock %}
 
 {% block menu%}
-{{ menu(0) }}
+{{ menu(0, permissions, currentUser) }}
 {% endblock %}
 
 {% block content %}
+<br>
 <h2 class="text-center">Заполните форму, чтобы добавить новое объявление</h2>
 {{ showErrorFormInfo(model.form) }}
-<div class="grid-x align-center">
-    <div class="cell small-3">
-      <form method="POST">
+<form method="POST">
+    <div class="grid-x align-center">
+        <div class="cell medium-4">
           <label><strong>Категория услуг</strong>
-              <select name="category">
-                  <option value="">Выберите категорию</option>
-                  {{ comboBox(model.categories, model.form.fields["category"] | first) }}
-              </select>
+              <input type="text" value="{{model.categoryName}}" disabled>
           </label>
           <label><strong>Название</strong>
               <input type="text" maxlength="30" name="title"
@@ -27,29 +25,24 @@
           </label>
           <label><strong>Город</strong>
               <select name="city">
-                  <option value="">Выберите город</option>
+                  <option value="{{ currentUser.currentCity }}">{{ currentUser.currentCity }}</option>
                   {{ comboBox(model.cities, model.form.fields["city"] | first) }}
               </select>
           </label>
           <label><strong>Описание</strong>
-              <textarea name="description" rows="5">{{ model.form.fields["description"] | first}}</textarea>
+              {% set edited_description = model.form.fields["description"] | first %}
+              {% if not edited_description %}
+                  <textarea name="description" rows="5">{{ model.description }}</textarea>
+              {% else %}
+                  <textarea name="description" rows="5">{{ edited_description }}</textarea>
+              {% endif %}
           </label>
           <label><strong>ФИО специалиста</strong>
-              <select name="specialist">
-                  <option value="">Выберите специалиста</option>
-                  {% for specialist in model.specialists %}
-                      <option
-                          {% if specialist.id.toString() == model.form.fields["specialist"] | first%}
-                                  selected
-                          {% endif %}
-                                  value="{{specialist.id}}">
-                              {{specialist.fullName}}
-                      </option>
-                  {% endfor %}
-              </select>
+                  <input type="text" name="specialist" value="{{model.specialistName}}" disabled>
           </label>
-        <input class="button success cell" type="submit" value="Отправить">
-      </form>
+          <input class="button success cell" type="submit" value="Отправить">
+          <a class="button cell" href="/announcements/new">Назад</a>
+        </div>
     </div>
-</div>
+</form>
 {% endblock %}

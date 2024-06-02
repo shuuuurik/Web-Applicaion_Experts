@@ -12,7 +12,7 @@ data class City(
                 City(
                     row[CityTable.name]!!,
                 )
-            } catch (npe: NullPointerException) {
+            } catch (_: NullPointerException) {
                 null
             }
     }

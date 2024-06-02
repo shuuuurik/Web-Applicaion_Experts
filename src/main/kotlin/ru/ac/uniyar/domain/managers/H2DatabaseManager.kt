@@ -1,9 +1,10 @@
 package ru.ac.uniyar.domain.managers
 
 import org.h2.tools.Server
+import ru.ac.uniyar.config.DataBaseConfig
 import kotlin.concurrent.thread
 
-class H2DatabaseManager {
+class H2DatabaseManager(private val databaseConfig: DataBaseConfig) {
     private var tcpServer: Server? = null
     private var webServer: Server? = null
     private val shutdownThread = thread(start = false, name = "") {
@@ -29,7 +30,7 @@ class H2DatabaseManager {
             "-ifNotExists",
         ).start()
         webServer = Server.createWebServer(
-            "-webPort", WEB_PORT.toString(),
+            "-webPort", databaseConfig.dbPort.toString(),
             "-baseDir", ".",
             "-ifNotExists",
         ).start()

@@ -9,19 +9,19 @@ class AddAnnouncementOperation(
     private val database: Database,
 ) {
     fun add(
-        category: String,
+        categoryId: Int,
         title: String,
         city: String,
         description: String,
-        specialistId: Int
+        specialistUsername: String,
     ) {
         database.insert(AnnouncementTable) {
-            set(it.category, category)
+            set(it.categoryId, categoryId)
             set(it.title, title)
             set(it.city, city)
             set(it.description, description)
-            set(it.specialistId, specialistId)
-            set(it.adding_time, LocalDateTime.now())
+            set(it.specialistUsername, specialistUsername)
+            set(it.addingTime, LocalDateTime.now())
         }
     }
 }

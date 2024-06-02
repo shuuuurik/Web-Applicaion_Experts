@@ -27,10 +27,10 @@ class ListCategoriesByNameOperation(
     fun list(page: Int, categoryName: String): List<CategoryWithAnnouncementsNumber> =
         database
             .from(CategoryTable)
-            .leftJoin(AnnouncementTable, on = CategoryTable.name eq AnnouncementTable.category)
-            .select(CategoryTable.name, announcementCount, CategoryTable.adding_time)
+            .leftJoin(AnnouncementTable, on = CategoryTable.id eq AnnouncementTable.categoryId)
+            .select(CategoryTable.id, CategoryTable.name, announcementCount, CategoryTable.adding_time)
             .where { (CategoryTable.name.toLowerCase() like "%${categoryName.lowercase()}%") }
-            .groupBy(CategoryTable.name)
+            .groupBy(CategoryTable.id)
             .orderBy(CategoryTable.adding_time.asc())
             .limit((page - 1) * CATEGORIES_PER_PAGE, CATEGORIES_PER_PAGE)
             .mapNotNull(CategoryWithAnnouncementsNumber::fromResultSet)

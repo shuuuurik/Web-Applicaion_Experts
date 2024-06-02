@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block menu %}
-{{ menu(2) }}
+{{ menu(2, permissions, currentUser) }}
 {% endblock %}
 
 {% block content %}
@@ -30,39 +30,13 @@
             </select>
         </label>
         <input class="button success cell medium-3" type="submit" value="Искать">
-        <a href="/announcements" class="alert button cell medium-3"
+        <a href="/announcements?city=" class="alert button cell medium-3"
            title="Показать полный список объявлений">Сбросить фильтры</a>
     </form>
 </div>
 <br>
 {{ pageFlipper(model.uri) }}
 <div class="grid-x align-center">
-    <!--<div class="cell shrink">
-        <div class="callout">
-            <form method="GET">
-                <label><strong>Поиск по категории</strong>
-                    <select name="category">
-                        <option value=""></option>
-                        {{ comboBox(model.categories, model.category) }}
-                    </select>
-                </label>
-                <label><strong>Поиск по названию</strong>
-                    <input type="text" name="title"
-                           value = "{{ model.title}}"
-                    >
-                </label>
-                <label><strong>Поиск по городу</strong>
-                    <select name="city">
-                        <option value=""></option>
-                        {{ comboBox(model.cities, model.city) }}
-                    </select>
-                </label>
-                <input class="button success cell" type="submit" value="Искать">
-            </form>
-            <a href="/announcements" class="alert button cell"
-               title="Показать полный список объявлений">Сбросить фильтры</a>
-        </div>
-    </div>-->
     <div class="cell shrink">
         {% if model.announcements is empty %}
             <div class="callout warning">
@@ -75,7 +49,9 @@
                         <th>Категория услуг</th>
                         <th>Название</th>
                         <th>Город</th>
-                        <th>Специалист</th>
+                        {% if permissions.showSpecialist %}
+                            <th>Специалист</th>
+                        {% endif %}
                         <th>Подробно</th>
                     </tr>
                 </thead>
@@ -85,10 +61,12 @@
                         <td>{{announcement.category}}</td>
                         <td>{{announcement.title}}</td>
                         <td>{{announcement.city}}</td>
-                        <td>
-                            <a href="/specialists/{{announcement.specialistId}}" class="button"
-                               title="Перейти на страницу специалиста">Страница специалиста</a>
-                        </td>
+                        {% if permissions.showSpecialist %}
+                            <td>
+                                <a href="/specialists/{{announcement.specialistId}}" class="button"
+                                   title="Перейти на страницу специалиста">Страница специалиста</a>
+                            </td>
+                        {% endif %}
                         <td>
                             <a href="/announcements/{{announcement.id}}" class="button"
                                title="Полная информация об объявлении">Больше информации</a>
@@ -100,10 +78,12 @@
         {% endif %}
     </div>
 </div>
+{% if permissions.addAnnouncement %}
 <br>
 <div class="grid-x align-center">
     <div class="cell shrink">
         <a href="/announcements/new" class="large button success" title="Открыть форму создания нового объявления">Добавить объявление</a>
     </div>
 </div>
+{% endif %}
 {% endblock %}

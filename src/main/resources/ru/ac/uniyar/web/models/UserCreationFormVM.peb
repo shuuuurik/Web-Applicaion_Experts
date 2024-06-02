@@ -1,0 +1,54 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Регистрация
+{% endblock %}
+
+{% block menu%}
+{{ menu(0, permissions, currentUser) }}
+{% endblock %}
+
+{% block content %}
+<br>
+<h2 class="text-center">Заполните форму, чтобы зарегистрироваться на сайте</h2>
+{{ showErrorFormInfo(model.form) }}
+
+<form method="POST">
+    <div class="grid-x align-center">
+        <div class="cell medium-4">
+            <label><strong>ФИО пользователя</strong>
+                <input type="text" maxlength="50" name="full_name"
+                       value = "{{ model.form.fields["full_name"] | first}}"
+                >
+            </label>
+            <label for="phone"><strong>Номер телефона</strong>
+                <input type="tel" maxlength="15" name="phone"
+                       value = "{{ model.form.fields["phone"] | first}}"
+                >
+            </label>
+            <label><strong>Город пребывания</strong>
+                <select name="city">
+                    <option value="">Выберите город</option>
+                    {{ comboBox(model.cities, model.form.fields["city"] | first) }}
+                </select>
+            </label>
+            <label><strong>Логин</strong>
+                <input type="text" maxlength="50" name="username"
+                       value = "{{ model.form.fields["username"] | first}}"
+                >
+            </label>
+            <label><strong>Пароль</strong>
+                <input type="password" maxlength="64" name="passwordOne"
+                       value = "{{ model.form.fields["passwordOne"] | first}}"
+                >
+            </label>
+            <label><strong>Повторите пароль</strong>
+                <input type="password" maxlength="64" name="passwordTwo"
+                       value = "{{ model.form.fields["passwordTwo"] | first}}"
+                >
+            </label>
+            <input class="button success cell" type="submit" value="Отправить">
+        </div>
+    </div>
+</form>
+{% endblock %}

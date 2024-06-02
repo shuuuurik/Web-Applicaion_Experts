@@ -1,0 +1,84 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Заявки
+{% endblock %}
+
+{% block menu %}
+{{ menu(6, permissions, currentUser) }}
+{% endblock %}
+
+{% block content %}
+{{ listHeader("заявок") }}
+<div class="grid-container">
+    <form class="grid-x grid-margin-x align-center align-bottom" method="GET">
+        <label class="cell medium-2"><strong>Поиск по статусу</strong>
+            <select name="status">
+                <option value=""></option>
+                <option value="Новая"
+                    {% if model.status == "Новая" %}
+                        selected
+                    {% endif %}>
+                    Новые
+                </option>
+                <option value="Подтверждена"
+                    {% if model.status == "Подтверждена" %}
+                        selected
+                    {% endif %}>
+                    Подтверждённые
+                </option>
+                <option value="Отклонена"
+                    {% if model.status == "Отклонена" %}
+                        selected
+                    {% endif %}>
+                    Отклонённые
+                </option>
+            </select>
+        </label>
+        <input class="button success cell medium-3" type="submit" value="Искать">
+        <a href="/requests" class="alert button cell medium-3"
+           title="Показать полный список заявок">Сбросить фильтры</a>
+    </form>
+</div>
+<br>
+{{ pageFlipper(model.uri) }}
+<div class="grid-x align-center">
+    <div class="cell shrink">
+        {% if model.requests is empty %}
+            <div class="callout warning">
+                <h4>Данные на этой странице отсутствуют</h4>
+            </div>
+        {% else %}
+            <table class="hover">
+                <thead>
+                <tr>
+                    <th>Категория услуг</th>
+                    <th>Статус</th>
+                    <th>Подробно</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for request in model.requests %}
+                    <tr>
+                        <td>{{ request.category }}</td>
+                        <td>{{ request.status }}</td>
+                        <td>
+                            <a href="/requests/{{request.id}}" class="button"
+                               title="Полная информация о заявке">Страница заявки</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
+{% if permissions.addRequest %}
+<br>
+<div class="grid-x align-center">
+    <div class="cell shrink">
+        <a href="/requests/new" class="large button success" title="Открыть форму создания новой заявки">Добавить заявку</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

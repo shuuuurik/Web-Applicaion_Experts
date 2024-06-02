@@ -1,0 +1,47 @@
+{% extends "./layout.peb" %}
+
+{% block title %}
+Добавление заявки
+{% endblock %}
+
+{% block menu%}
+{{ menu(0, permissions, currentUser) }}
+{% endblock %}
+
+{% block content %}
+<br>
+<h2 class="text-center">Заполните форму, чтобы добавить новую заявку</h2>
+{{ showErrorFormInfo(model.form) }}
+<form method="POST">
+    <div class="grid-x align-center">
+        <div class="cell medium-4">
+            <label><strong>ФИО пользователя</strong> (поменять можно в профиле)
+                <input type="text" value="{{ currentUser.fullName }}" disabled>
+            </label>
+            <label><strong>Номер телефона</strong> (поменять можно в профиле)
+                <input type="text" value="{{ currentUser.phone }}" disabled>
+            </label>
+            <label><strong>Город</strong> (поменять можно в профиле)
+                <input type="text" value="{{ currentUser.currentCity }}" disabled>
+            </label>
+            <label><strong>Категория услуг</strong>
+                <select name="category">
+                    <option value="">Выберите категорию</option>
+                    {{ comboBox1(model.categories, model.form.fields["category"] | first) }}
+                </select>
+            </label>
+            <label><strong>Образование, сертификация</strong>
+                {% if model.education %}
+                    <textarea name="education" rows="5">{{ model.education }}</textarea>
+                {% else %}
+                    <textarea name="education" rows="5">{{ model.form.fields["education"] | first}}</textarea>
+                {% endif %}
+            </label>
+            <label><strong>Опыт работы в данной категории</strong>
+                <textarea name="experience" rows="5">{{ model.form.fields["experience"] | first}}</textarea>
+            </label>
+            <input class="button success cell" type="submit" value="Отправить">
+        </div>
+    </div>
+</form>
+{% endblock %}

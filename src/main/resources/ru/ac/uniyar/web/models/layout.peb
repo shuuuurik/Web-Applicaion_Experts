@@ -21,6 +21,23 @@
             {% endblock %}
           </ul>
         </div>
+        <div class="top-bar-right">
+              <ul class="dropdown menu" data-dropdown-menu>
+                      {% if currentUser is not null %}
+                          <li><h5>{{ currentUser.username }}</h5></li>
+                          <li>
+                              <a></a>
+                              <ul class="menu vertical">
+                                  <li><a href="/profile"><h5>Профиль</h5></a></li>
+                                  <li><a href="/logout"><h5>Выйти</h5></a></li>
+                              </ul>
+                          </li>
+                      {% else %}
+                          <li><a href="/login"><h5>Войти</h5></a></li>
+                          <li><a href="/registration"><h5>Зарегистрироваться</h5></a></li>
+                      {% endif %}
+              </ul>
+        </div>
       </div>
 
 {% block content %}
@@ -35,6 +52,7 @@
     <script src="/js/app.js"></script>
   </body>
 </html>
+
 
 
     

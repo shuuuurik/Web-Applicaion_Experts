@@ -4,37 +4,57 @@
 Информация
 {% endblock %}
 
+{% set specialist = model.specialist %}
 {% block menu%}
-{{ menu(0) }}
+    {% if specialist.username == currentUser.username %}
+        {{ menu(7, permissions, currentUser) }}
+    {% else %}
+        {{ menu(0, permissions, currentUser) }}
+    {% endif %}
 {% endblock %}
 
-{% set data = model.specialist %}
 {% block content %}
-{{ entityHeader("о специалисте", "/specialists", "специалистов", "специалистам") }}
+{% if permissions.listSpecialists %}
+    {{ entityHeader("о специалисте", "/specialists", "специалистов", "специалистам") }}
+{% else %}
+    <br>
+    <h2 class="text-center">Информация о специалисте</h2>
+{% endif %}
 <div class="grid-x align-center">
     <div class="cell medium-6 primary callout">
         <div class="grid-x align-justify align-middle">
             <div class="cell shrink">
-                {{ entityFieldInfo("ФИО специалиста", data.fullName) }}
+                {{ entityFieldInfo("ФИО специалиста", specialist.fullName) }}
             </div>
-            <a href="/specialists/{{ data.id }}/new" class="button success cell shrink"
-               title="Открыть форму добавления нового объявления"> Создать объявление для данного специалиста
-            </a>
+            {% if specialist.username == currentUser.username and permissions.addAnnouncement %}
+                <a href="/announcements/new" class="large button success cell shrink"
+                   title="Открыть форму добавления нового объявления"> Создать объявление
+                </a>
+            {% endif %}
         </div>
-        {{ entityFieldInfo("Образование, сертификация", data.education) }}
-        {{ entityFieldInfo("Номер телефона", data.phone) }}
-        {{ entityFieldInfo("Дата добавления", data.addingTime) }}
+        {{ entityFieldInfo("Номер телефона", specialist.phone) }}
+        <div class="grid-x align-justify align-middle">
+            <div class="cell medium-10">
+                {{ entityFieldInfo("Образование, сертификация", specialist.education) }}
+            </div>
+            {% if specialist.username == currentUser.username and permissions.name == "Специалист" %}
+                <a href="/specialists/{{ specialist.username }}/edit" class="button cell shrink"
+                   title="Изменить образование и сертификацию"> Редактировать
+                </a>
+            {% endif %}
+        </div>
+        {{ entityFieldInfo("Дата добавления", specialist.addingTime) }}
     </div>
 </div>
 <br>
 {% if model.announcements is empty and model.uri.page == 1 %}
     <div class="grid-x align-center">
         <div class="cell shrink callout warning">
-            <h4>Объявлений у специалиста {{ data.fullName }} нет</h4>
+            <h4>Объявлений у специалиста {{ specialist.fullName }} нет</h4>
         </div>
     </div>
 {% else %}
-    <h3 class="text-center">Список объявлений у специалиста {{ data.fullName }}</h3>
+    <h3 class="text-center">Список объявлений у специалиста {{ specialist.fullName }}</h3>
     <br>
     {{ pageFlipper(model.uri) }}
     <div class="grid-x align-center">

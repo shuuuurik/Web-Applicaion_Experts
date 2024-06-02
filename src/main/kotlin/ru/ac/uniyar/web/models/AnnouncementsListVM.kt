@@ -4,8 +4,9 @@ import org.http4k.template.ViewModel
 import ru.ac.uniyar.domain.database.entities.Announcement
 import ru.ac.uniyar.domain.database.entities.Category
 import ru.ac.uniyar.domain.database.entities.City
-import ru.ac.uniyar.domain.operations.UriWithPageQuery
+import ru.ac.uniyar.domain.database.entities.UriWithPageQuery
 
+@Suppress("LongParameterList")
 data class AnnouncementsListVM(
     val announcements: List<Announcement>,
     val uri: UriWithPageQuery,
